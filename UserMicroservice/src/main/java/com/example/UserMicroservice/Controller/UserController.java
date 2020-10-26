@@ -36,13 +36,14 @@ public class UserController {
     @PostMapping(value="/signup",headers="Accept=application/json")
     public ResponseEntity<String> createtrainingtable(@RequestBody UserEntity user, UriComponentsBuilder ucBuilder){
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        System.out.println("Creating user"+user.getId());
         user.setTimestamp(timestamp);
         UserEntity ut=userServiceImp.findByUsernameignorecase(user.getUsername());
+       // System.out.println("======="+ut.getUsername());
         if(ut!=null){user.setId(ut.getId());
+        user.setStatus(ut.getStatus());
         userServiceImp.createUser(user);}
-        else userServiceImp.createUser(user);
-        user.setStatus("active");
+        else {
+            userServiceImp.createUser(user); }
         String str="Created";
         return new ResponseEntity<String>( str,new HttpHeaders(), HttpStatus.CREATED);
     }

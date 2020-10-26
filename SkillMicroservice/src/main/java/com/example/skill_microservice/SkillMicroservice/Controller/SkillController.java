@@ -26,15 +26,16 @@ public class SkillController {
         headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(skill.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
     }
+
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SkillEntity> getskillById(@PathVariable("id") long id) {
-        System.out.println("Fetching User with id " + id);
         SkillEntity skill1 = skillserviceimp.findById(id);
         if (skill1 == null) {
             return new ResponseEntity<SkillEntity>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<SkillEntity>(skill1, HttpStatus.OK);
     }
+
     @GetMapping(value = "/skillbyname/{name}", headers="Accept=application/json")
     public ResponseEntity<List<SkillEntity>> getNameContainingIgnoreCase(@PathVariable String name) {
 
@@ -42,6 +43,7 @@ public class SkillController {
 
         return new ResponseEntity<List<SkillEntity>>(skill1,new HttpHeaders(), HttpStatus.OK);
     }
+
     @GetMapping(value="/get", headers="Accept=application/json")
     public ResponseEntity<List<SkillEntity>> getallSkills(
             @RequestParam(defaultValue = "0") Integer pageNo,
@@ -57,15 +59,14 @@ public class SkillController {
     public ResponseEntity<String> deleteteskillById(@PathVariable("id") long id){
         SkillEntity skill = skillserviceimp.findById(id);
         if (skill == null) {
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
-        }
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND); }
         skillserviceimp.deleteSkillById(id);
         return new ResponseEntity<String>(HttpStatus.OK);
     }
+
     @PutMapping(value="/update", headers="Accept=application/json")
     public ResponseEntity<String> updateskill(@RequestBody SkillEntity skill)
     {
-        System.out.println("sd");
         SkillEntity skill1 = skillserviceimp.findById(skill.getId());
         if (skill1==null) {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);

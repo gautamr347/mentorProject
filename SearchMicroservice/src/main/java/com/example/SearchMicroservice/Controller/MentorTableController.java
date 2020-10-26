@@ -1,7 +1,5 @@
 package com.example.SearchMicroservice.Controller;
 
-import com.example.SearchMicroservice.Entity.MentorDetails;
-import com.example.SearchMicroservice.Entity.MentorSkillsEntity;
 import com.example.SearchMicroservice.Entity.MentorTableEntity;
 import com.example.SearchMicroservice.Repository.MentorTableRepository;
 import com.example.SearchMicroservice.Service.MentorTableServiceImp;
@@ -40,29 +38,25 @@ MentorTableServiceImp mentorTableServiceImp;
             @RequestParam(defaultValue = "id") String sortBy){
         List <MentorTableEntity> listmentorskills=mentorTableServiceImp.getallmentortables(pageNo,pageSize,sortBy);
         return new ResponseEntity<List<MentorTableEntity>>(listmentorskills, new HttpHeaders(), HttpStatus.OK);
-
     }
+
     @GetMapping(value = "/byid/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MentorTableEntity> getmentortableById(@PathVariable("id") long id) {
-        System.out.println("Fetching MentorTable by id " + id);
         MentorTableEntity mentorTableEntity=mentorTableServiceImp.findById(id);
-        System.out.println(mentorTableEntity.getMentorname());
         if (mentorTableEntity == null) {
             return new ResponseEntity<MentorTableEntity>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<MentorTableEntity>(mentorTableEntity, HttpStatus.OK);
     }
 
+
     @GetMapping(value = "/byidgetname/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getmentornameById(@PathVariable("id") long id) {
-        System.out.println("Fetching MentorTable by id " + id);
         MentorTableEntity mentorTableEntity=mentorTableServiceImp.findById(id);
-        System.out.println(mentorTableEntity.getMentorname());
         if (mentorTableEntity == null) {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<String>(mentorTableEntity.getMentorname(), HttpStatus.OK);
-    }
+        return new ResponseEntity<String>(mentorTableEntity.getMentorname(), HttpStatus.OK); }
 
 }
 

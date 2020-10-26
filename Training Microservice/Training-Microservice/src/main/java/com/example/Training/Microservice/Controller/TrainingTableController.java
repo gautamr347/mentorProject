@@ -2,6 +2,7 @@ package com.example.Training.Microservice.Controller;
 
 import com.example.Training.Microservice.Entity.PaymentTableentity;
 import com.example.Training.Microservice.Entity.ProposeTRaining;
+import com.example.Training.Microservice.Entity.SkillModel;
 import com.example.Training.Microservice.Entity.TrainingTableEntity;
 import com.example.Training.Microservice.Repository.PaymentTableRepository;
 import com.example.Training.Microservice.Repository.TrainingTableRepository;
@@ -18,8 +19,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.naming.directory.SearchResult;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/trainingtable")
@@ -87,12 +93,8 @@ public class TrainingTableController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         ResponseEntity<Long> result1 = restTemplate.getForEntity(uri+username, Long.class);
         Long id = result1.getBody();
-        System.out.println("------"+result1.getBody().getClass().getName());
-        System.out.println("Status Code: "+result1.getStatusCodeValue()+ id);
-
         TrainingTableEntity ttable1=trainingtableServiceimp.findByUserid(id);
         ttable1.setProgress("approved");
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -111,22 +113,41 @@ public class TrainingTableController {
     @PostMapping(value="/proposingtraining",headers="Accept=application/json")
     public String proposing(@RequestBody ProposeTRaining ptraining)
 
-    {
-        System.out.println("-----"+ptraining.getStartdate());
-        TrainingTableEntity ttable=new TrainingTableEntity();
+    { TrainingTableEntity ttable=new TrainingTableEntity();
         ttable.setUserid(ptraining.getUserid());
         ttable.setMentorid(ptraining.getMentorid());
         ttable.setSkillid(ptraining.getSkillid());
       if(ptraining.getStartdate()!=null){  ttable.setStartdate(ptraining.getStartdate());}
         if(ptraining.getSessionstarttime()!=null){   ttable.setSessionstarttime(ptraining.getSessionstarttime());}
-        if(ptraining.getSessionendtime()!=null){ ttable.setSessionendtime(ptraining.getSessionendtime());}
-
+        LocalTime lt=ptraining.getSessionstarttime().toLocalTime();
+        ttable.setSessionendtime(Time.valueOf(lt.plusHours(2)));
+        ////////////////////////////////
+        final String baseUrl = "http://localhost:7901/skill/";
+        URI uri12 =  null;
+        try {
+            uri12 = new URI(baseUrl);
+        } catch (URISyntaxException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+            long id12=ptraining.getSkillid();
+        String id1=Long.toString(id12);
+        ResponseEntity<SkillModel> result1 = restTemplate.getForEntity(uri12+id1, SkillModel.class);
+        SkillModel result = result1.getBody();
+        int duration=result.getTotalduration_in_hrs();
+        //////////////////////////////
+        LocalDate ld=ptraining.getStartdate().toLocalDate();
+        int x;
+        if(duration%2==0){x=duration/2;}
+        else x=(duration+1)/2;
+        ttable.setEnddate(Date.valueOf(ld.plusDays(x)));
         TrainingTableEntity ttable123= trainingtableServiceimp.findByMentoridAndUseridAndSkillid(ptraining.getMentorid(),ptraining.getUserid(),ptraining.getSkillid());
         if(ttable123!=null){ttable.setId(ttable123.getId());
             trainingTableRepository.save(ttable);}
         else trainingTableRepository.save(ttable);
         return  "Proposed";
     }
+
     @GetMapping(value="/trainingstarted/{username}")
     public String starting(@PathVariable String username)
     {
@@ -151,6 +172,8 @@ public class TrainingTableController {
         String str= "training started";
         return  str;
     }
+
+
     @GetMapping(value="/trainingcompleted/{username}")
     public String completing(@PathVariable String username)
     {

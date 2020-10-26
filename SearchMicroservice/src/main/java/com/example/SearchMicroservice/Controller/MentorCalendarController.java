@@ -2,8 +2,10 @@ package com.example.SearchMicroservice.Controller;
 
 import com.example.SearchMicroservice.Entity.MentorCalendarEntity;
 import com.example.SearchMicroservice.Entity.MentorCalendarModel;
+import com.example.SearchMicroservice.Entity.MentorTableEntity;
 import com.example.SearchMicroservice.Repository.MentorCalendarRepository;
 import com.example.SearchMicroservice.Service.MentorCalendarServiceImp;
+import com.example.SearchMicroservice.Service.MentorTableServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,8 @@ public class MentorCalendarController {
     MentorCalendarRepository mentorCalendarRepository;
     @Autowired
     MentorCalendarServiceImp mentorCalendarServiceImp;
+    @Autowired
+    MentorTableServiceImp mentorTableServiceImp;
 
 
     @PostMapping(value="/createtingcalendar",headers="Accept=application/json")
@@ -48,20 +52,17 @@ public class MentorCalendarController {
     @DeleteMapping(value="/deleting/{tid1}", headers="Accept=application/json")
     public ResponseEntity<Void> createtrainingtable(@PathVariable String tid1){
         Long tid=Long.valueOf(tid1);
-        System.out.println("+++++++++++++"+tid);
         MentorCalendarEntity ctable=mentorCalendarServiceImp.findByTrainingid(tid);
         mentorCalendarRepository.delete(ctable);
-
         return new ResponseEntity<Void>( new HttpHeaders(), HttpStatus.OK);
     }
+
+
     @GetMapping (value="/getcalendar/{mid}", headers="Accept=application/json")
     public ResponseEntity<List<MentorCalendarEntity>> gettingcalendar(@PathVariable Long mid){
         List<MentorCalendarEntity> llist=mentorCalendarServiceImp.findByMentorid(mid);
-
         if (llist == null) {
-            return new ResponseEntity<List<MentorCalendarEntity>>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<List<MentorCalendarEntity>>(llist, HttpStatus.OK);
-    }
+            return new ResponseEntity<List<MentorCalendarEntity>>(HttpStatus.NOT_FOUND); }
+        return new ResponseEntity<List<MentorCalendarEntity>>(llist, HttpStatus.OK); }
 
 }
