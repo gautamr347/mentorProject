@@ -1,0 +1,65 @@
+#Name of the application
+spring:
+  application:
+    name: ZuulProject
+
+#Eureka server url for registering
+#This is eureka client
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:7905/eureka/
+#hystrix:
+ # command:
+  #  default:
+   #   execution:
+    #    isolation:
+     #     strategy: THREAD
+      #    thread:
+       #     timeoutInMilliseconds: 10000
+
+
+#register url to server
+
+instance:
+  hostname: localhost
+
+
+
+server:
+  port: 7906
+ribbon:
+  eureka:
+    enabled: true
+#hystrix:
+ # command:
+  #  default:
+   #   execution:
+    #    isolation:
+     #     strategy: THREAD
+      #    thread:
+       #     timeoutInMilliseconds: 10000
+zuul:
+ # host:
+  #  connect-timeout-millis: 960000 # starting the connection
+   # socket-timeout-millis: 960000
+
+ # retryable: true
+
+  prefix: /mproject
+  routes:
+    UserMicroservice:
+      path: /usermicroservice/**
+      service-id: UserMicroservice
+    SearchMicroservice:
+      path: /searchmicroservice/**
+      service-id: SearchMicroservice
+    SkillMicroservice:
+      path: /skillmicroservice/**
+      service-id: SkillMicroservice
+
+
+
+
