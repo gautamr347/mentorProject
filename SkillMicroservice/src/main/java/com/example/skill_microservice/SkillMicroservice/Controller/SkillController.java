@@ -1,5 +1,6 @@
 package com.example.skill_microservice.SkillMicroservice.Controller;
 
+import com.example.skill_microservice.SkillMicroservice.Entity.Authorization;
 import com.example.skill_microservice.SkillMicroservice.Entity.SkillEntity;
 import com.example.skill_microservice.SkillMicroservice.Service.SkillServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import static com.example.skill_microservice.SkillMicroservice.SkillMicroserviceApplication.logger;
 import java.util.List;
 
 
@@ -18,13 +19,15 @@ import java.util.List;
 public class SkillController {
     @Autowired
     SkillServiceImp skillserviceimp;
+    @Autowired
+    private Authorization authorization;
     @PostMapping(value="/create",headers="Accept=application/json")
-    public ResponseEntity<Void> createskill(@RequestBody SkillEntity skill, UriComponentsBuilder ucBuilder){
-        System.out.println("Creating technology "+skill.getName());
+    public ResponseEntity<String> createskill(@RequestHeader("Authorization")String header,@RequestBody SkillEntity skill, UriComponentsBuilder ucBuilder){
+       String role=authorization.auth(header);
+       if(role.equals("admin")){
         skillserviceimp.createSkill(skill);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(skill.getId()).toUri());
-        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+        return new ResponseEntity<String>("Created",new HttpHeaders(), HttpStatus.CREATED);}
+       else return new ResponseEntity<String>("Not Authorized",new HttpHeaders(),HttpStatus.CONFLICT);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

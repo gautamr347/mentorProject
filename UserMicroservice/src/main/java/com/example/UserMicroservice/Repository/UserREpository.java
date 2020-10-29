@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface UserREpository extends JpaRepository<UserEntity,Long> {
     UserEntity findByUsernameIgnoreCase(String username);
+    UserEntity findByUsername(String username);
 }

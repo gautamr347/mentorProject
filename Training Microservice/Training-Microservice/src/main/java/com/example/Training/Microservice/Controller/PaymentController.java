@@ -6,10 +6,7 @@ import com.example.Training.Microservice.Repository.TrainingTableRepository;
 import com.example.Training.Microservice.Service.PaymentTableServiceImp;
 import com.example.Training.Microservice.Service.TrainingTableServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,6 +18,8 @@ import java.sql.Timestamp;
 @RequestMapping("/payment")
 
 public class PaymentController {
+    @Autowired
+    private Authorization authorization;
     @Autowired
     RestTemplate restTemplate;
 
@@ -35,10 +34,14 @@ public class PaymentController {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
     @PostMapping(value="/finalizingtraining",headers="Accept=application/json")
-    public String finalizing(@RequestBody Payment pmt)
-    {   TrainingTableEntity ttable12=trainingTableRepository.findById(pmt.getTrainingid());
+    public String finalizing(@RequestHeader("Authorization")String header,@RequestBody Payment pmt)
+    {   //////////////////////////////////
+            String rol=authorization.auth(header);
+        ///////////////////////////////////
+if(rol.equals("user")){
+        TrainingTableEntity ttable12=trainingTableRepository.findById(pmt.getTrainingid());
         ttable12.setAmountreceived(pmt.getAmount());
-        ttable12.setProgress("ongoing");
+        ttable12.setProgress("finalized");
         trainingTableRepository.save(ttable12);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         PaymentTableentity ptable=new PaymentTableentity();
@@ -76,6 +79,8 @@ public class PaymentController {
 
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         return  "Payment Done";
+    }else return "Not Authorized";
     }
+
 
 }

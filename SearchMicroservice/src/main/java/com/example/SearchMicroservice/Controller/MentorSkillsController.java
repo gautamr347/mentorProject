@@ -1,5 +1,6 @@
 package com.example.SearchMicroservice.Controller;
 
+import com.example.SearchMicroservice.Entity.Authorization;
 import com.example.SearchMicroservice.Entity.MentorSkillsEntity;
 import com.example.SearchMicroservice.Entity.SearchResult;
 import com.example.SearchMicroservice.Entity.SkillModel;
@@ -10,7 +11,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import static com.example.SearchMicroservice.SearchMicroserviceApplication.logger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
@@ -26,6 +27,8 @@ public class MentorSkillsController {
 RestTemplate restTemplate;
 @Autowired
     MentorSkillsRepository mentorSkillsRepository;
+@Autowired
+    Authorization authorization;
 
 
 
@@ -102,20 +105,20 @@ public ResponseEntity<SearchResult> getmentorskillByname() {
                 }
 
         }
-        //search for skill id in mentorskill
         return  searchResults;
     }
 
 
     @PostMapping(value="/createtingmentorskills",headers="Accept=application/json")
-    public ResponseEntity<Void> creatementorskills(@RequestBody MentorSkillsEntity mskills, UriComponentsBuilder ucBuilder){
+    public ResponseEntity<String> creatementorskills(@RequestHeader("Authorization")String header,@RequestBody MentorSkillsEntity mskills, UriComponentsBuilder ucBuilder){
+       String role=authorization.auth(header);
+       if(role.equals("mentor")){
         MentorSkillsEntity mskills12=  mentorSkillServiceImp.findByMentorid(mskills.getMentorid());
-
-
         if(mskills12!=null){ mskills.setId(mskills12.getId());
             mentorSkillsRepository.save(mskills);}
         else mentorSkillsRepository.save(mskills);
-        return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<String>(new HttpHeaders(), HttpStatus.CREATED);}
+       else return new ResponseEntity<String>("Not Authorized",new HttpHeaders(), HttpStatus.CONFLICT);
     }
 
 }

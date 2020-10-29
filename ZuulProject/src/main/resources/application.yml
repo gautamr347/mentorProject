@@ -59,6 +59,9 @@ zuul:
     SkillMicroservice:
       path: /skillmicroservice/**
       service-id: SkillMicroservice
+    Training-Microservice:
+      path: /trainingmicroservice/**
+      service-id: Training-Microservice
 
 
 

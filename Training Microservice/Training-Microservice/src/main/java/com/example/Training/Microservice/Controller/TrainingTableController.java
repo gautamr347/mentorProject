@@ -1,17 +1,13 @@
 package com.example.Training.Microservice.Controller;
 
-import com.example.Training.Microservice.Entity.PaymentTableentity;
-import com.example.Training.Microservice.Entity.ProposeTRaining;
-import com.example.Training.Microservice.Entity.SkillModel;
-import com.example.Training.Microservice.Entity.TrainingTableEntity;
+import com.example.Training.Microservice.Entity.*;
 import com.example.Training.Microservice.Repository.PaymentTableRepository;
 import com.example.Training.Microservice.Repository.TrainingTableRepository;
 import com.example.Training.Microservice.Service.PaymentTableServiceImp;
 import com.example.Training.Microservice.Service.TrainingTableServiceImp;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,6 +23,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.Training.Microservice.TrainingMicroserviceApplication.logger;
+
 @RestController
 @RequestMapping("/trainingtable")
 public class TrainingTableController {
@@ -38,40 +36,54 @@ public class TrainingTableController {
     TrainingTableServiceImp trainingtableServiceimp;
     @Autowired
     PaymentTableServiceImp paymentTableServiceImp;
+    @Autowired
+    Authorization authrize;
 
     @Autowired
     TrainingTableRepository trainingTableRepository;
     @GetMapping("/getall")
-    public ResponseEntity<List<TrainingTableEntity>> getalltrainings(
+    public ResponseEntity<List<TrainingTableEntity>> getalltrainings(@RequestHeader("Authorization")String header,
             @RequestParam(defaultValue = "0") Integer pageNo,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "id") String sortBy){
-
+        String role=authrize.auth(header);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        if(role.equals("admin")){
+            responseHeaders.set("authorization", "Authorized");
         List<TrainingTableEntity> list=trainingtableServiceimp.getalltrainings(pageNo,pageSize,sortBy);
-        return new ResponseEntity<List<TrainingTableEntity>> (list, new HttpHeaders(), HttpStatus.OK);
-    }
-    @PostMapping(value="/createtrainingtable",headers="Accept=application/json")
+        return new ResponseEntity<List<TrainingTableEntity>> (list, responseHeaders, HttpStatus.OK);}
+        else {responseHeaders.set("authorization", "not authorized");List<TrainingTableEntity> list1=new ArrayList<>();
+        return new ResponseEntity<List<TrainingTableEntity>>(list1,responseHeaders,HttpStatus.CONFLICT );
+        }}
+
+   /* @PostMapping(value="/createtrainingtable",headers="Accept=application/json")
     public ResponseEntity<Void> createtrainingtable(@RequestBody TrainingTableEntity ttable, UriComponentsBuilder ucBuilder){
         System.out.println("Creating trainingtable "+ttable.getId());
         trainingtableServiceimp.createTraining(ttable);
        // HttpHeaders headers = new HttpHeaders();
        // headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(ttable.getId()).toUri());
         return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
-    }
+    }*/
     @GetMapping(value = "/trainingbyprogress/{progress}", headers="Accept=application/json")
-    public ResponseEntity<List<TrainingTableEntity>> getNameContainingIgnoreCase(@PathVariable String progress) {
+    public ResponseEntity<List<TrainingTableEntity>> gettrainingbyprogress(@PathVariable String progress) {
 
         List<TrainingTableEntity> ttable1 = trainingtableServiceimp.findByProgressContainingIgnoreCase(progress);
 
         return new ResponseEntity<List<TrainingTableEntity>>(ttable1,new HttpHeaders(), HttpStatus.OK);
     }
     @GetMapping(value = "/completedtrainings", headers="Accept=application/json")
-    public ResponseEntity<List<TrainingTableEntity>> getNameContainingIgnoreCase() {
+    public ResponseEntity<List<TrainingTableEntity>> getCompletedtraining(@RequestHeader("Authorization")String header) {
         String progress="completed";
-
+        String role=authrize.auth(header);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        if(role.equals("admin")){
+            responseHeaders.set("authorization", "Authorized");
         List<TrainingTableEntity> skill1 = trainingtableServiceimp.findByProgressContainingIgnoreCase(progress);
+        return new ResponseEntity<List<TrainingTableEntity>>(skill1,responseHeaders, HttpStatus.OK);}
+        else {responseHeaders.set("authorization", "Not Authorized");
+        List<TrainingTableEntity> list23=new ArrayList<>();
+            return new ResponseEntity<List<TrainingTableEntity>>(list23,responseHeaders, HttpStatus.CONFLICT);}
 
-        return new ResponseEntity<List<TrainingTableEntity>>(skill1,new HttpHeaders(), HttpStatus.OK);
     }
     @GetMapping(value = "/underprogresstrainings", headers="Accept=application/json")
     public ResponseEntity<List<TrainingTableEntity>> gettrainingunderprogress() {
@@ -83,8 +95,9 @@ public class TrainingTableController {
     }
 
     @GetMapping(value="/approvingtraining/{username}")
-    public String approving(@PathVariable String username)
-    {
+    public String approving(@RequestHeader("Authorization")String header,@PathVariable String username)
+    {String rol=authrize.auth(header);
+    if(rol.equals("mentor")){
         final String baseUrl = "http://localhost:7904/users/getbyusername/";
         URI uri =  null;
         try {
@@ -93,7 +106,14 @@ public class TrainingTableController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        ResponseEntity<Long> result1 = restTemplate.getForEntity(uri+username, Long.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization",header);
+        HttpEntity entity = new HttpEntity(headers);
+        ResponseEntity<Long> result1 = restTemplate.exchange(
+                uri+username, HttpMethod.GET, entity,
+               Long.class);
+
+        //ResponseEntity<Long> result1 = restTemplate.getForEntity(uri+username, Long.class,entity);
         Long id = result1.getBody();
         TrainingTableEntity ttable1=trainingtableServiceimp.findByUserid(id);
         ttable1.setProgress("approved");
@@ -108,12 +128,19 @@ public class TrainingTableController {
 
         trainingTableRepository.save(ttable1);
         String str= "approved";
-        return  str;
+        return  str;}
+    else return "Not Authorized";
     }
     @PostMapping(value="/proposingtraining",headers="Accept=application/json")
-    public String proposing(@RequestBody ProposeTRaining ptraining)
+    public String proposing(@RequestBody ProposeTRaining ptraining,
+                            @RequestHeader("Authorization") String header) {
+        logger.info("proposing");
+        ///////////////////////////////////
+        String rol=authrize.auth(header);
+        ////////////////////////////////
 
-    { TrainingTableEntity ttable=new TrainingTableEntity();
+     if(rol.equals("user")){
+        TrainingTableEntity ttable=new TrainingTableEntity();
         ttable.setUserid(ptraining.getUserid());
         ttable.setMentorid(ptraining.getMentorid());
         ttable.setSkillid(ptraining.getSkillid());
@@ -145,7 +172,8 @@ public class TrainingTableController {
         if(ttable123!=null){ttable.setId(ttable123.getId());
             trainingTableRepository.save(ttable);}
         else trainingTableRepository.save(ttable);
-        return  "Proposed";
+        return  "Proposed";}
+else return "Not Authorized";
     }
 
     @GetMapping(value="/trainingstarted/{username}")
@@ -159,14 +187,9 @@ public class TrainingTableController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         ResponseEntity<Long> result1 = restTemplate.getForEntity(uri+username, Long.class);
         Long id = result1.getBody();
-        System.out.println("------"+result1.getBody().getClass().getName());
-        System.out.println("Status Code: "+result1.getStatusCodeValue()+ id);
-
         TrainingTableEntity ttable1=trainingtableServiceimp.findByUserid(id);
-
         ttable1.setProgress("ongoing");
         trainingTableRepository.save(ttable1);
         String str= "training started";

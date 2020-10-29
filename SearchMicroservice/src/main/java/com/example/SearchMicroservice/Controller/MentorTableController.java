@@ -1,5 +1,6 @@
 package com.example.SearchMicroservice.Controller;
 
+import com.example.SearchMicroservice.Entity.Authorization;
 import com.example.SearchMicroservice.Entity.MentorTableEntity;
 import com.example.SearchMicroservice.Repository.MentorTableRepository;
 import com.example.SearchMicroservice.Service.MentorTableServiceImp;
@@ -10,7 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import static com.example.SearchMicroservice.SearchMicroserviceApplication.logger;
 import java.util.List;
 
 @RestController
@@ -20,15 +21,20 @@ public class MentorTableController {
 MentorTableServiceImp mentorTableServiceImp;
 @Autowired
     MentorTableRepository mentorTableRepository;
+@Autowired
+    Authorization authorization;
 
 
     @PostMapping(value="/createtingmentortable",headers="Accept=application/json")
-    public ResponseEntity<Void> createtrainingtable(@RequestBody MentorTableEntity mtableen, UriComponentsBuilder ucBuilder){
+    public ResponseEntity<String> createtrainingtable(@RequestHeader("Authorization")String header,@RequestBody MentorTableEntity mtableen, UriComponentsBuilder ucBuilder){
+   String role=authorization.auth(header);
+   if(role.equals("mentor")){
     MentorTableEntity mtablen12=mentorTableServiceImp.findByUsernameIgnoreCase(mtableen.getUsername());
     if(mtablen12!=null){ mtableen.setId(mtablen12.getId());
             mentorTableRepository.save(mtableen);}
         else mentorTableRepository.save(mtableen);
-        return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<String>("Created",new HttpHeaders(), HttpStatus.CREATED);}
+   else  return new ResponseEntity<String>("Not Authorized",new HttpHeaders(), HttpStatus.CONFLICT);
     }
 
     @GetMapping(value="/getall", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SkillRepository extends JpaRepository<SkillEntity,Long> {
     List<SkillEntity> findByNameContainingIgnoreCase(String skillname);
+
 }

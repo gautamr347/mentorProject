@@ -2,6 +2,7 @@ package com.example.SearchMicroservice.Entity;
 
 import java.sql.Date;
 import java.sql.Time;
+import static com.example.SearchMicroservice.SearchMicroserviceApplication.logger;
 
 public class MentorCalendarModel {
     private long mentorid;

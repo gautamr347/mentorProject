@@ -1,7 +1,7 @@
 package com.example.skill_microservice.SkillMicroservice.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import static com.example.skill_microservice.SkillMicroservice.SkillMicroserviceApplication.logger;
 import javax.persistence.*;
 
 

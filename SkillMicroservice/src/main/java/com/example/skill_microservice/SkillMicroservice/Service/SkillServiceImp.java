@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
+import static com.example.skill_microservice.SkillMicroservice.SkillMicroserviceApplication.logger;
 import java.util.ArrayList;
 import java.util.List;
 @Service

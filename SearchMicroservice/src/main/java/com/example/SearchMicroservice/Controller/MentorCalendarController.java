@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-
+import static com.example.SearchMicroservice.SearchMicroserviceApplication.logger;
 import java.util.List;
 
 @RestController
@@ -37,16 +37,10 @@ public class MentorCalendarController {
         mtable.setStarttime(mtable1.getStarttime());
         mtable.setEndtime(mtable1.getEndtime());
         mtable.setMentorid(mtable1.getMentorid());
-
         MentorCalendarEntity mtable2=mentorCalendarServiceImp.findByTrainingid(mtable.getTrainingid());
-
-
-       // System.out.println("----------------"+mtable2.getTrainingid());
         if(mtable2!=null){ mtable.setId(mtable2.getId());
         mentorCalendarRepository.save(mtable);}
         else mentorCalendarRepository.save(mtable);
-
-       // catch (NullPointerException ne){ne.printStackTrace();}
         return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
     }
     @DeleteMapping(value="/deleting/{tid1}", headers="Accept=application/json")

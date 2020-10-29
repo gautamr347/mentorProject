@@ -4,7 +4,7 @@ import com.example.SearchMicroservice.Entity.MentorCalendarEntity;
 import com.example.SearchMicroservice.Repository.MentorCalendarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import static com.example.SearchMicroservice.SearchMicroserviceApplication.logger;
 import java.util.List;
 
 @Service

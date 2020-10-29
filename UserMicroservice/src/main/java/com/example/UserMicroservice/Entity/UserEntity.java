@@ -42,6 +42,10 @@ public class UserEntity {
     @Column(name = "status")
     private String status="active";
 
+    @Column(name = "token")
+    @JsonIgnore
+    private String token;
+
 
 
     public long getId() {
@@ -122,5 +126,13 @@ public class UserEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
