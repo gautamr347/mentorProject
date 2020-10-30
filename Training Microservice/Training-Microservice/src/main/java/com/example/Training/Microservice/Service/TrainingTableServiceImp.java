@@ -13,37 +13,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TrainingTableServiceImp implements TrainingTableService{
+public class TrainingTableServiceImp implements TrainingTableService {
     @Autowired
     TrainingTableRepository trainingTableRepository;
 
-    public List<TrainingTableEntity> getalltrainings(Integer pageNo, Integer pageSize, String sortBy){
-        Pageable paging= PageRequest.of(pageNo,pageSize, Sort.by(sortBy));
-        Page<TrainingTableEntity> pagedresult=trainingTableRepository.findAll(paging);
-        if(pagedresult.hasContent()){
+    public List<TrainingTableEntity> getalltrainings(Integer pageNo, Integer pageSize, String sortBy) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        Page<TrainingTableEntity> pagedresult = trainingTableRepository.findAll(paging);
+        if (pagedresult.hasContent()) {
             return pagedresult.getContent();
-        }
-        else return new ArrayList<TrainingTableEntity>();
+        } else return new ArrayList<TrainingTableEntity>();
 
     }
-    public void createTraining(TrainingTableEntity trainingTableEntity){
+
+    public void createTraining(TrainingTableEntity trainingTableEntity) {
         trainingTableRepository.save(trainingTableEntity);
     }
-    public List<TrainingTableEntity> findByProgressContainingIgnoreCase(String progress){
-        return trainingTableRepository.findByProgressContainingIgnoreCase(progress);    }
 
-    public List<TrainingTableEntity> findByProgressIsNotContainingIgnoreCase(String progress){
+    public List<TrainingTableEntity> findByProgressContainingIgnoreCase(String progress) {
+        return trainingTableRepository.findByProgressContainingIgnoreCase(progress);
+    }
+
+    public List<TrainingTableEntity> findByProgressIsNotContainingIgnoreCase(String progress) {
         return trainingTableRepository.findByProgressIsNotContainingIgnoreCase(progress);
     }
-    public TrainingTableEntity findByUserid(Long id){
+
+    public List<TrainingTableEntity> findByUserid(long id) {
         return trainingTableRepository.findByUserid(id);
     }
 
-    public TrainingTableEntity findByMentoridAndUseridAndSkillid(long mid,long uid,long sid){
-        return trainingTableRepository.findByMentoridAndUseridAndSkillid(mid,uid,sid);
+    public TrainingTableEntity findByMentoridAndUseridAndSkillid(long mid, long uid, long sid) {
+        return trainingTableRepository.findByMentoridAndUseridAndSkillid(mid, uid, sid);
     }
 
-   public TrainingTableEntity findById(long id){
+    public TrainingTableEntity findById(long id) {
         return trainingTableRepository.findById(id);
-   }
+    }
 }

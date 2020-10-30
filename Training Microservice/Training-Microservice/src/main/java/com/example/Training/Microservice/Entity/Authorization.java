@@ -14,13 +14,13 @@ import java.net.URISyntaxException;
 
 @Component
 public class Authorization {
-@Autowired
+    @Autowired
     RestTemplate restTemplate;
 
 
-    public String auth(String header){
+    public String auth(String header) {
         final String baseUrl121 = "http://localhost:7904/users/authorizing";
-        URI uri121 =  null;
+        URI uri121 = null;
         try {
             uri121 = new URI(baseUrl121);
         } catch (URISyntaxException e) {
@@ -29,11 +29,11 @@ public class Authorization {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization",header);
+        headers.set("Authorization", header);
         HttpEntity entity = new HttpEntity(headers);
         ResponseEntity<String> res = restTemplate.exchange(
                 uri121, HttpMethod.GET, entity,
                 String.class);
-        return res.getBody().toString();
+        return res.getBody().toLowerCase();
     }
 }

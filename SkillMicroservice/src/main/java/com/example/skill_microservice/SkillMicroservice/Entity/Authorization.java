@@ -31,6 +31,6 @@ public class Authorization {
         ResponseEntity<String> res = restTemplate.exchange(
                 uri121, HttpMethod.GET, entity,
                 String.class);
-        return res.getBody().toString();
+        return res.getBody().toLowerCase();
     }
 }

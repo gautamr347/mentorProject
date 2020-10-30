@@ -33,7 +33,7 @@ public class PaymentTableentity {
     private Timestamp timestamp;
 
     @Column(name = "remarks")
-    private String remark="no any";
+    private String remark = "no any";
 
     public long getId() {
         return id;

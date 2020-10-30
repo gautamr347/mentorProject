@@ -1,10 +1,10 @@
 package com.example.Training.Microservice.Entity;
 
 public class Payment {
-    private  long trainingid;
+    private long trainingid;
     private double amount;
-    private String remarks="none";
-    private String txnid="abcdef1234";
+    private String remarks = "none";
+    private String txnid = "abcdef1234";
 
 
     public long getTrainingid() {

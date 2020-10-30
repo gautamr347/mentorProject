@@ -6,9 +6,11 @@ import com.example.Training.Microservice.Service.TrainingTableServiceImp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.List;
-
+@SpringBootApplication
 public class ConsoleApp {
 
 
@@ -39,7 +41,10 @@ public class ConsoleApp {
     public static final Logger logger = LoggerFactory.getLogger(TrainingMicroserviceApplication.class);
 
     public static void main(String[] args) {
-         ConsoleApp ap=new ConsoleApp();
+        SpringApplication.run(ConsoleApp.class, args);
+        //TrainingTableServiceImp ttab=new TrainingTableServiceImp();
+        //List<TrainingTableEntity> ttableall12=ttab.findByProgressContainingIgnoreCase("approved");
+        ConsoleApp ap=new ConsoleApp();
         ap.settoongoing();
 
     }

@@ -8,6 +8,6 @@ public interface SkillService {
     public SkillEntity findById(long id);
 
     public void deleteSkillById(long id);
-    public SkillEntity update(SkillEntity skill, long l);
+    public SkillEntity update(SkillEntity skill);
 
 }

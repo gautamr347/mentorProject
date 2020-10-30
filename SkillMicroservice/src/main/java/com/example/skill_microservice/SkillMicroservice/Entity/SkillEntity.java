@@ -1,6 +1,9 @@
 package com.example.skill_microservice.SkillMicroservice.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
+import org.springframework.validation.annotation.Validated;
+
 import static com.example.skill_microservice.SkillMicroservice.SkillMicroserviceApplication.logger;
 import javax.persistence.*;
 

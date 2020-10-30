@@ -38,7 +38,7 @@ public class UserEntity {
     @JsonIgnore
     @Column (name = "regcode")
     private int regcode=0000;
-    @JsonIgnore
+
     @Column(name = "status")
     private String status="active";
 

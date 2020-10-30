@@ -40,7 +40,7 @@ public class SkillServiceImp implements SkillService{
     }
 
     @Override
-    public SkillEntity update(SkillEntity skill, long l) {
+    public SkillEntity update(SkillEntity skill) {
         return skillRepository.save(skill);
     }
 

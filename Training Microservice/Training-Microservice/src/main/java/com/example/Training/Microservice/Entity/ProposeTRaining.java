@@ -14,13 +14,13 @@ public class ProposeTRaining {
     private long skillid;
 
     @JsonInclude
-    @JsonFormat(shape=JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
-    private Date startdate=new Date(2323223232L);
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date startdate = new Date(2323223232L);
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
-    private Time sessionstarttime=Time.valueOf("16:00:00");
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    private Time sessionstarttime = Time.valueOf("16:00:00");
 
-    @JsonFormat(shape=JsonFormat.Shape.STRING,pattern = "HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
     private Time sessionendtime;
 
     public long getUserid() {

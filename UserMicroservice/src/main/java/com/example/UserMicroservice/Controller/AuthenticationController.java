@@ -16,7 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.sql.Timestamp;
 
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/token")
 public class AuthenticationController {
@@ -27,21 +27,22 @@ public class AuthenticationController {
     @Autowired
     JwtTokenUtil jwtTokenUtil;
 
+
+    //For Generate Token
     @RequestMapping(value = "/generatetoken", method = RequestMethod.POST)
     public ApiResponse<AuthToken> register(@RequestBody LoginUser loginUser) throws AuthenticationException {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword()));
         final UserEntity user = userServiceImp.findByUsername(loginUser.getUsername());
         final String token = jwtTokenUtil.generateToken(user);
-        //System.out.println("Role is:"+user.getRole());
-        //System.out.println("------"+token);
-        userServiceImp.updatetoken(user,token);
-        return new ApiResponse<>(200, "success",new AuthToken(token, user.getUsername(), user.getRole()));
+       // userServiceImp.updatetoken(user, token);
+        return new ApiResponse<>(200, "success", new AuthToken(token, user.getUsername(), user.getRole()));
     }
-    @PostMapping(value="/signup",headers="Accept=application/json")
-    public ResponseEntity<String> createtrainingtable(@RequestBody User user, UriComponentsBuilder ucBuilder){
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        user.setTimestamp(timestamp);
-        String str=userServiceImp.save(user);
-        return new ResponseEntity<String>( str,new HttpHeaders(), HttpStatus.CREATED);
+
+    // For Signup
+    @PostMapping(value = "/signup", headers = "Accept=application/json")
+    public ResponseEntity<String> createtrainingtable(@RequestBody User user) {
+        user.setTimestamp(new Timestamp(System.currentTimeMillis()));
+        String str = userServiceImp.save(user);
+        return new ResponseEntity<String>(str, new HttpHeaders(), HttpStatus.CREATED);
     }
 }

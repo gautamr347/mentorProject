@@ -33,53 +33,54 @@ public class PaymentController {
     PaymentTableServiceImp paymentTableServiceImp;
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-    @PostMapping(value="/finalizingtraining",headers="Accept=application/json")
-    public String finalizing(@RequestHeader("Authorization")String header,@RequestBody Payment pmt)
-    {   //////////////////////////////////
-            String rol=authorization.auth(header);
+    @PostMapping(value = "/finalizingtraining", headers = "Accept=application/json")
+    public String finalizing(@RequestHeader("Authorization") String header, @RequestBody Payment pmt) {   //////////////////////////////////
         ///////////////////////////////////
-if(rol.equals("user")){
-        TrainingTableEntity ttable12=trainingTableRepository.findById(pmt.getTrainingid());
-        ttable12.setAmountreceived(pmt.getAmount());
-        ttable12.setProgress("finalized");
-        trainingTableRepository.save(ttable12);
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        PaymentTableentity ptable=new PaymentTableentity();
-        ptable.setAmount(pmt.getAmount());
-        ptable.setRemark(pmt.getRemarks());
-        ptable.setTrainingid(pmt.getTrainingid());
-        ptable.setTimestamp(timestamp);
-        ptable.setTransnid(pmt.getTxnid());
-        PaymentTableentity ptable123=paymentTableServiceImp.findByTrainingid(pmt.getTrainingid());
-        if(ptable123!=null) {ptable.setId(ptable123.getId());
-            paymentTableRepository.save(ptable);}
-        else paymentTableRepository.save(ptable);
+        if (authorization.auth(header).equals("learner")) {
+            TrainingTableEntity ttable12 = trainingTableRepository.findById(pmt.getTrainingid());
+            if (ttable12.getProgress().equals("approved")) {
+                ttable12.setAmountreceived(pmt.getAmount());
+                ttable12.setProgress("finalized");
+                trainingTableRepository.save(ttable12);
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                PaymentTableentity ptable = new PaymentTableentity();
+                ptable.setAmount(pmt.getAmount());
+                ptable.setRemark(pmt.getRemarks());
+                ptable.setTrainingid(pmt.getTrainingid());
+                ptable.setTimestamp(timestamp);
+                ptable.setTransnid(pmt.getTxnid());
+                PaymentTableentity ptable123 = paymentTableServiceImp.findByTrainingid(pmt.getTrainingid());
+                if (ptable123 != null) {
+                    ptable.setId(ptable123.getId());
+                    paymentTableRepository.save(ptable);
+                } else paymentTableRepository.save(ptable);
 ////////////////////////////////////////////////////////////////////////////////////////////
-        final String baseUrl = "http://localhost:7902/mcalendar/createtingcalendar";
-            URI uri =  null;
-            try {
-                uri = new URI(baseUrl);
-            } catch (URISyntaxException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            System.out.println("-------"+ttable12.getId());
-         MentorCalendarModel mcalendar=new MentorCalendarModel();
-         mcalendar.setEnddate(ttable12.getEnddate());
-         mcalendar.setEndtime(ttable12.getSessionendtime());
-         mcalendar.setStartdate(ttable12.getStartdate());
-         mcalendar.setStarttime(ttable12.getSessionstarttime());
-         mcalendar.setMentorid(ttable12.getMentorid());
-         mcalendar.setTrainingid(ttable12.getId());
+                final String baseUrl = "http://localhost:7902/mcalendar/createtingcalendar";
+                URI uri = null;
+                try {
+                    uri = new URI(baseUrl);
+                } catch (URISyntaxException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                System.out.println("-------" + ttable12.getId());
+                MentorCalendarModel mcalendar = new MentorCalendarModel();
+                mcalendar.setEnddate(ttable12.getEnddate());
+                mcalendar.setEndtime(ttable12.getSessionendtime());
+                mcalendar.setStartdate(ttable12.getStartdate());
+                mcalendar.setStarttime(ttable12.getSessionstarttime());
+                mcalendar.setMentorid(ttable12.getMentorid());
+                mcalendar.setTrainingid(ttable12.getId());
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<MentorCalendarModel> requestEntity = new HttpEntity<>( mcalendar, headers);
-        ResponseEntity<MentorCalendarModel> result1 = restTemplate.postForEntity(uri,requestEntity, MentorCalendarModel.class);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<MentorCalendarModel> requestEntity = new HttpEntity<>(mcalendar, headers);
+                ResponseEntity<MentorCalendarModel> result1 = restTemplate.postForEntity(uri, requestEntity, MentorCalendarModel.class);
 
- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        return  "Payment Done";
-    }else return "Not Authorized";
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                return "Payment Done";
+            } else return "Not approved by trainer";
+        } else return "Not Authorized";
     }
 
 

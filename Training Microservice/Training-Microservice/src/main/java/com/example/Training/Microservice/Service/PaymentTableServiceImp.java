@@ -10,7 +10,7 @@ public class PaymentTableServiceImp {
     @Autowired
     PaymentTableRepository paymentTableRepository;
 
-   public PaymentTableentity findByTrainingid(long id){
+    public PaymentTableentity findByTrainingid(long id) {
         return paymentTableRepository.findByTrainingid(id);
     }
 

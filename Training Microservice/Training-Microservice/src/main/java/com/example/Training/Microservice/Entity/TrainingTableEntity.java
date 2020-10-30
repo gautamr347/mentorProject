@@ -11,7 +11,7 @@ import java.sql.Time;
 public class TrainingTableEntity {
 
    public TrainingTableEntity() {
-        Date dateOne = new Date(2323223232L);
+       Date dateOne = new Date(2323223232L);
        Time time = new Time(123456789999l);
         this.userid = 1;
         this.mentorid = 1;

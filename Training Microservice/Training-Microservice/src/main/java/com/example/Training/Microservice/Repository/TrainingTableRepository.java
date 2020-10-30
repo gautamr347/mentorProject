@@ -12,7 +12,8 @@ public interface TrainingTableRepository extends JpaRepository<TrainingTableEnti
 
     List<TrainingTableEntity> findByProgressContainingIgnoreCase(String progress);
     List<TrainingTableEntity> findByProgressIsNotContainingIgnoreCase(String progress);
-    TrainingTableEntity findByUserid(long id);
+    List<TrainingTableEntity> findByUserid(long id);
     TrainingTableEntity findByMentoridAndUseridAndSkillid(long mid,long uid,long sid);
+
     TrainingTableEntity findById(long id);
 }
