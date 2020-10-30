@@ -2,38 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0df12627-45fb-410c-a151-be055c74cc30" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/PaymentGo.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/PaymentGoProject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/example/UserMicroservice/Entity/TokenToRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Controller/MentorCalendarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Controller/MentorCalendarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Controller/MentorSkillsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Controller/MentorSkillsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Controller/MentorTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Controller/MentorTableController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Entity/Authorization.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Entity/Authorization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Repository/MentorSkillsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Repository/MentorSkillsRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Service/MentorSkillServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SearchMicroservice/src/main/java/com/example/SearchMicroservice/Service/MentorSkillServiceImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Controller/SkillController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Controller/SkillController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Entity/Authorization.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Entity/Authorization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Entity/SkillEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Entity/SkillEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Service/SkillService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Service/SkillService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Service/SkillServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../SkillMicroservice/src/main/java/com/example/skill_microservice/SkillMicroservice/Service/SkillServiceImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/ConsoleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/ConsoleApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Service/EmailServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Controller/PaymentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Controller/TrainingTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Controller/TrainingTableController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/Authorization.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/Authorization.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/Payment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/PaymentTableentity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/PaymentTableentity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/ProposeTRaining.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/ProposeTRaining.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/TrainingTableEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Entity/TrainingTableEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Repository/TrainingTableRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Repository/TrainingTableRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Service/PaymentTableServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Service/PaymentTableServiceImp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Service/TrainingTableServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/Service/TrainingTableServiceImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/example/UserMicroservice/Controller/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/example/UserMicroservice/Controller/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/example/UserMicroservice/Controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/example/UserMicroservice/Controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/example/UserMicroservice/Entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../UserMicroservice/src/main/java/com/example/UserMicroservice/Entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/TrainingMicroserviceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/java/com/example/Training/Microservice/TrainingMicroserviceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../Training Microservice/Training-Microservice/src/main/resources/application.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -81,10 +57,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="203" />
-    <option name="y" value="97" />
-    <option name="width" value="1717" />
-    <option name="height" value="949" />
+    <option name="x" value="267" />
+    <option name="y" value="175" />
+    <option name="width" value="1539" />
+    <option name="height" value="941" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">

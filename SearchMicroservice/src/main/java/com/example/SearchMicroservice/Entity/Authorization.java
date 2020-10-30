@@ -24,7 +24,6 @@ public class Authorization {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization",header);
         HttpEntity entity = new HttpEntity(headers);

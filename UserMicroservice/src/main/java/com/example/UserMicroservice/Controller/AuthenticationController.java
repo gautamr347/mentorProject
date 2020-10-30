@@ -43,6 +43,6 @@ public class AuthenticationController {
     public ResponseEntity<String> createtrainingtable(@RequestBody User user) {
         user.setTimestamp(new Timestamp(System.currentTimeMillis()));
         String str = userServiceImp.save(user);
-        return new ResponseEntity<String>(str, new HttpHeaders(), HttpStatus.CREATED);
+        return new ResponseEntity<>(str, new HttpHeaders(), HttpStatus.CREATED);
     }
 }

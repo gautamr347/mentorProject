@@ -54,7 +54,8 @@ public class PaymentController {
                     ptable.setId(ptable123.getId());
                     paymentTableRepository.save(ptable);
                 } else paymentTableRepository.save(ptable);
-////////////////////////////////////////////////////////////////////////////////////////////
+
+                ///////////////////////// creating entry in mentorcalendar
                 final String baseUrl = "http://localhost:7902/mcalendar/createtingcalendar";
                 URI uri = null;
                 try {
@@ -77,7 +78,7 @@ public class PaymentController {
                 HttpEntity<MentorCalendarModel> requestEntity = new HttpEntity<>(mcalendar, headers);
                 ResponseEntity<MentorCalendarModel> result1 = restTemplate.postForEntity(uri, requestEntity, MentorCalendarModel.class);
 
-                ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                //////////////////////////////////////////////////////
                 return "Payment Done";
             } else return "Not approved by trainer";
         } else return "Not Authorized";

@@ -3,11 +3,13 @@ package com.example.Training.Microservice.Controller;
 import com.example.Training.Microservice.Entity.*;
 import com.example.Training.Microservice.Repository.PaymentTableRepository;
 import com.example.Training.Microservice.Repository.TrainingTableRepository;
+import com.example.Training.Microservice.Service.EmailServiceImpl;
 import com.example.Training.Microservice.Service.PaymentTableServiceImp;
 import com.example.Training.Microservice.Service.TrainingTableServiceImp;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -38,6 +40,8 @@ public class TrainingTableController {
     PaymentTableServiceImp paymentTableServiceImp;
     @Autowired
     Authorization authrize;
+    @Autowired
+    EmailServiceImpl emailService;
 
     @Autowired
     TrainingTableRepository trainingTableRepository;
@@ -181,7 +185,9 @@ public class TrainingTableController {
                 ttable.setId(ttable123.getId());
                 trainingTableRepository.save(ttable);
             } else trainingTableRepository.save(ttable);
+            emailService.sendproposalmessage();
             return "Proposed";
+
         } else return "Not Authorized";
     }
 
@@ -232,14 +238,20 @@ public class TrainingTableController {
         //////////////////////////////////////////////////////////////////////////////////////////
         return "Completed Training";
     }
-@GetMapping(value = "/getbylearnerid/{uid}")
-    ResponseEntity<List<TrainingTableEntity>> getalltrainings(@RequestHeader("Authorization") String header,@PathVariable long uid){
-        if(authrize.auth(header).equals("learner")){
-            List<TrainingTableEntity> ttab1=trainingtableServiceimp.findByUserid(uid);
-            return new ResponseEntity<>(ttab1,new HttpHeaders(),HttpStatus.OK);
-        }
-        else return new ResponseEntity<>(new ArrayList<>(),new HttpHeaders() , HttpStatus.CONFLICT);
-}
+
+    @GetMapping(value = "/getbylearnerid/{uid}")
+    ResponseEntity<List<TrainingTableEntity>> getalltrainings(@RequestHeader("Authorization") String header, @PathVariable long uid) {
+        if (authrize.auth(header).equals("learner")) {
+            List<TrainingTableEntity> ttab1 = trainingtableServiceimp.findByUserid(uid);
+            return new ResponseEntity<>(ttab1, new HttpHeaders(), HttpStatus.OK);
+        } else return new ResponseEntity<>(new ArrayList<>(), new HttpHeaders(), HttpStatus.CONFLICT);
+    }
+
+    @GetMapping(value = "/email")
+    public void sendmail() {
+
+        emailService.sendproposalmessage();
+    }
     /* @PostMapping(value="/createtrainingtable",headers="Accept=application/json")
      public ResponseEntity<Void> createtrainingtable(@RequestBody TrainingTableEntity ttable, UriComponentsBuilder ucBuilder){
          System.out.println("Creating trainingtable "+ttable.getId());
@@ -249,5 +261,8 @@ public class TrainingTableController {
          return new ResponseEntity<Void>(new HttpHeaders(), HttpStatus.CREATED);
      }*/
 
-
 }
+
+
+
+

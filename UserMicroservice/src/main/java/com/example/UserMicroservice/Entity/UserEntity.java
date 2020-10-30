@@ -3,6 +3,7 @@ package com.example.UserMicroservice.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.sql.Timestamp;
 
 @Entity
@@ -13,22 +14,27 @@ public class UserEntity {
     @JsonIgnore
     private long id;
 
+    @NotEmpty(message = "first name is required")
     @Column(name = "firstname")
     private String firstname;
 
+    @NotEmpty(message = "Last name is required")
     @Column(name = "lastname")
     private String lastname;
 
+    @NotEmpty(message = "username is required")
     @Column(name = "username")
     private String username;
+
+    @NotEmpty(message = "password is required")
     @JsonIgnore
     @Column(name = "password")
     private String password;
 
-    @Column(name="contactnumber")
+    @Column(name = "contactnumber")
     private int contactnumber;
 
-    @Column(name="regdatetime")
+    @Column(name = "regdatetime")
     @JsonIgnore
     private Timestamp timestamp;
 
@@ -36,16 +42,15 @@ public class UserEntity {
     private String role;
 
     @JsonIgnore
-    @Column (name = "regcode")
-    private int regcode=0000;
+    @Column(name = "regcode")
+    private int regcode = 0000;
 
     @Column(name = "status")
-    private String status="active";
+    private String status = "active";
 
     @Column(name = "token")
     @JsonIgnore
     private String token;
-
 
 
     public long getId() {
