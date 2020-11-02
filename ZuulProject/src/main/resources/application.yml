@@ -41,7 +41,11 @@ ribbon:
      #     strategy: THREAD
       #    thread:
        #     timeoutInMilliseconds: 10000
+
+
+#sensitiveHeaders: Cookie,Set-Cookie,Authorization
 zuul:
+  sensitiveHeaders:
  # host:
   #  connect-timeout-millis: 960000 # starting the connection
    # socket-timeout-millis: 960000

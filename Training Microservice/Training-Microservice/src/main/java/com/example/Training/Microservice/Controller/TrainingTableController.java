@@ -1,6 +1,7 @@
 package com.example.Training.Microservice.Controller;
 
 import com.example.Training.Microservice.Entity.*;
+import com.example.Training.Microservice.Pulsar.ProducerEg;
 import com.example.Training.Microservice.Repository.PaymentTableRepository;
 import com.example.Training.Microservice.Repository.TrainingTableRepository;
 import com.example.Training.Microservice.Service.EmailServiceImpl;
@@ -25,6 +26,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.Training.Microservice.Pulsar.ProducerEg.producer12;
 import static com.example.Training.Microservice.TrainingMicroserviceApplication.logger;
 
 @RestController
@@ -106,7 +108,7 @@ public class TrainingTableController {
         }
     }
 
-    //approving training by username. Access only to mentor
+    //approving training by trainingid. Access only to mentor
     @GetMapping(value = "/approvingtraining/{tid}")
     public String approving(@RequestHeader("Authorization") String header, @PathVariable long tid) {
         if (authrize.auth(header).equals("mentor")) {
@@ -186,6 +188,13 @@ public class TrainingTableController {
                 trainingTableRepository.save(ttable);
             } else trainingTableRepository.save(ttable);
             emailService.sendproposalmessage();
+
+            ////////////////////// Pulsar message queue
+            try {
+                producer12();
+            } catch (Exception ec) {
+                System.out.println("Not produced");
+            }
             return "Proposed";
 
         } else return "Not Authorized";
@@ -249,7 +258,6 @@ public class TrainingTableController {
 
     @GetMapping(value = "/email")
     public void sendmail() {
-
         emailService.sendproposalmessage();
     }
     /* @PostMapping(value="/createtrainingtable",headers="Accept=application/json")

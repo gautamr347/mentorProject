@@ -40,8 +40,6 @@ public class PaymentController {
             TrainingTableEntity ttable12 = trainingTableRepository.findById(pmt.getTrainingid());
             if (ttable12.getProgress().equals("approved")) {
                 ttable12.setAmountreceived(pmt.getAmount());
-                ttable12.setProgress("finalized");
-                trainingTableRepository.save(ttable12);
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 PaymentTableentity ptable = new PaymentTableentity();
                 ptable.setAmount(pmt.getAmount());
@@ -79,6 +77,27 @@ public class PaymentController {
                 ResponseEntity<MentorCalendarModel> result1 = restTemplate.postForEntity(uri, requestEntity, MentorCalendarModel.class);
 
                 //////////////////////////////////////////////////////
+                /// for go microservice
+               /* PaymentGo pg=new PaymentGo();
+                pg.setId("4");
+                pg.setAmt(String.valueOf(pmt.getAmount()));
+                pg.setRemarks(pmt.getRemarks());
+                pg.setRemarks(pmt.getRemarks());
+                final String baseUrlgo = "http://localhost:7907/createPayment";
+                URI urigo = null;
+                try {
+                    urigo = new URI(baseUrlgo);
+                } catch (URISyntaxException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                HttpHeaders headersgo = new HttpHeaders();
+                headersgo.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<PaymentGo> requestEntitygo = new HttpEntity<>(pg, headersgo);
+                ResponseEntity<PaymentGo> result1go = restTemplate.postForEntity(urigo, requestEntitygo, PaymentGo.class);
+                ///////////////////////////////   */
+                ttable12.setProgress("finalized");
+                trainingTableRepository.save(ttable12);
                 return "Payment Done";
             } else return "Not approved by trainer";
         } else return "Not Authorized";
